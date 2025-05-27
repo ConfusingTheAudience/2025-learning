@@ -1,5 +1,6 @@
 import { db } from "@/utils/db";
 import React from "react";
+import * as action from "../actions/index";
 
 const Home = async () => {
   const data = await db.user.findMany({
@@ -7,36 +8,18 @@ const Home = async () => {
       id: true,
       name: true,
     },
+    orderBy: {
+      id: "desc",
+    },
   });
-
-  async function createUser(formData: FormData) {
-    "use server";
-
-    const input = formData.get("input") as string;
-    await db.user.create({
-      data: { name: input },
-    });
-  }
-
-  async function deleteUser(formData: FormData) {
-    "use server";
-
-    const inputId = Number(formData.get("inputId"));
-
-    if (isNaN(inputId)) {
-      console.error("Invalid ID");
-      return;
-    }
-
-    await db.user.delete({
-      where: { id: inputId },
-    });
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-blue-50">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <form action={createUser} className="flex flex-col sm:flex-row gap-4">
+        <form
+          action={action.createUser}
+          className="flex flex-col sm:flex-row gap-4"
+        >
           <input
             type="text"
             name="input"
@@ -63,7 +46,7 @@ const Home = async () => {
                 <button
                   type="submit"
                   className="text-sm px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors cursor-pointer"
-                  formAction={deleteUser}
+                  formAction={action.deleteUser}
                 >
                   DELETE
                 </button>
