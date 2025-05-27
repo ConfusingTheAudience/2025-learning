@@ -1,36 +1,180 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NextJS with Prisma
+Prisma implementation to NextJS and basic functionality
 
-## Getting Started
+<br />
+<br />
 
-First, run the development server:
-
+## Commands to begin
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. npx create-next-app@latest [foldername]
+```
+```bash
+2. cd [foldername] (if we aren't inside)
+```
+```bash
+3. npm i -D prisma
+```
+```bash
+4. npx prisma init --datasource-provider [sqlite] (sqlite or other db)
+```
+```diff
++ 5. Add model to prisma/schema.prisma
+```
+```bash
+6. npx prisma migrate dev --name init
+```
+```diff
++ 7. Create utils/db.ts with code inside it
+
+ import { PrismaClient } from "../generated/prisma";
+ export const db = new PrismaClient();
+```
+```diff
++ 8. Start usage of prisma in page.ts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<br />
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Prisma most useful commands
+```bash
+npx prisma format - to format code
+```
+```bash
+npx prisma studio - to open studio for db
+```
+```bash
+npx prisma migrate dev --name [what-we-did] - to any changes made after first migrate in schema.prisma
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Prisma snippets
+**schema.prisma - model**
+```prisma
+model User {
+  id          Int        @id @default(autoincrement())
+  name        String
+  email       String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+```
+**Add record/s**
+```prisma
+const user = await prisma.user.create({
+    data: {
+      name: 'Ariadne',
+      email: 'ariadne@prisma.io',
+    },
+})
+```
+```prisma
+const createManyUsers = await prisma.user.createMany({
+    data: [
+      { name: 'Bob', email: 'bob@prisma.io' },
+      { name: 'Yewande', email: 'yewande@prisma.io' },
+      { name: 'Angelique', email: 'angelique@prisma.io' },
+    ]
+})
+```
+**Add record by form**
+```prisma
+async function createUser(formData: FormData) {
+    "use server";
 
-## Learn More
+    const inputName = formData.get("inputName") as string;
+    await db.user.create({
+      data: { name: inputName },
+    });
+  }
+```
+**Get record/s**
+```prisma
+const users = await prisma.user.findMany()
+```
+```prisma
+const user = await prisma.user.findUnique({
+  where: {
+    email: 'ariadne@prisma.io',
+  },
+})
+```
+**Update record/s**
+```prisma
+const updateUser = await prisma.user.update({
+  where: {
+    email: 'viola@prisma.io',
+  },
+  data: {
+    name: 'Viola the Magnificent',
+  },
+})
+```
+```prisma
+const updateUsers = await prisma.user.updateMany({
+  where: {
+    email: {
+      contains: 'prisma.io',
+    },
+  },
+  data: {
+    role: 'ADMIN',
+  },
+})
+```
+**Delete record/s**
+```prisma
+const deleteUser = await prisma.user.delete({
+  where: {
+    email: 'bert@prisma.io',
+  },
+})
+```
+```prisma
+const deleteUsers = await prisma.user.deleteMany({
+  where: {
+    email: {
+      contains: 'prisma.io',
+    },
+  },
+})
+```
+**Delete all records**
+```prisma
+const deleteUsers = await prisma.user.deleteMany({})
+```
 
-To learn more about Next.js, take a look at the following resources:
+<br />
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Optional chain to add at the bottom of new PrismaClient**
+```prisma
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Information
+useful to remember
+<br />
 
-## Deploy on Vercel
+`name of input is important! <input name="myData">`
+<br />
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`two ways of get data from form: <form action={functionToUse}> or <button formAction={functionToUse}`
+<br />
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`I can use formAction in a button, but it has to be in a <form>`
+<br />
+
+`formAction from <button> overwrites the action from <form>`
+<br />
+
+`You can have multiple buttons in one <form>, each with a different formAction`
+<br />
+
+`On server we need to use "use server"; after every start of function (like in the example with Add record by form)`
+<br />
