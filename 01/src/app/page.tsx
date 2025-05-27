@@ -18,6 +18,21 @@ const Home = async () => {
     });
   }
 
+  async function deleteUser(formData: FormData) {
+    "use server";
+
+    const inputId = Number(formData.get("inputId"));
+
+    if (isNaN(inputId)) {
+      console.error("Invalid ID");
+      return;
+    }
+
+    await db.user.delete({
+      where: { id: inputId },
+    });
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-blue-50">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -44,10 +59,11 @@ const Home = async () => {
             >
               <p className="text-blue-900 font-medium">{user.name}</p>
               <form>
-                <input type="hidden" name="id" value={user.id} />
+                <input type="hidden" name="inputId" value={user.id} />
                 <button
                   type="submit"
                   className="text-sm px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors cursor-pointer"
+                  formAction={deleteUser}
                 >
                   DELETE
                 </button>
