@@ -1,16 +1,23 @@
 import { db } from "@/utils/db";
 import React from "react";
 
-async function createUser(formData: FormData) {
-  "use server";
-
-  const input = formData.get("input") as string;
-  await db.user.create({
-    data: { name: input },
+const Home = async () => {
+  const data = await db.user.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
   });
-}
 
-const Home = () => {
+  async function createUser(formData: FormData) {
+    "use server";
+
+    const input = formData.get("input") as string;
+    await db.user.create({
+      data: { name: input },
+    });
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-blue-50">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -28,6 +35,26 @@ const Home = () => {
             Add User
           </button>
         </form>
+
+        <div className="space-y-3">
+          {data.map((user) => (
+            <div
+              key={user.id}
+              className="flex justify-between items-center mt-5 px-4 py-2 bg-blue-100 rounded-md shadow-sm"
+            >
+              <p className="text-blue-900 font-medium">{user.name}</p>
+              <form>
+                <input type="hidden" name="id" value={user.id} />
+                <button
+                  type="submit"
+                  className="text-sm px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors cursor-pointer"
+                >
+                  DELETE
+                </button>
+              </form>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
