@@ -8,6 +8,7 @@ export default function Home() {
         <Link href="/products" className="text-white hover:text-blue-500 transition-colors duration-200 mt-4">Product First Page</Link>
         <Link href="/products2" className="text-white hover:text-blue-500 transition-colors duration-200">Product Second Page</Link>
         <Link href="/products3" className="text-white hover:text-blue-500 transition-colors duration-200 mb-4">Product Third Page</Link>
+        <Link href="/photosgallery" className="text-white hover:text-blue-500 transition-colors duration-200">Photos Gallery</Link>
     </div>
   );
 }
