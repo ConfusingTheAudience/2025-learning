@@ -5,6 +5,7 @@ export default function Home() {
     <div className="box">
         <h1>Home Page</h1>
         <Link href="/about" className="text-white hover:text-blue-500 transition-colors duration-200">About Page</Link>
+        <Link href="/products" className="text-white hover:text-blue-500 transition-colors duration-200">Product Page</Link>
     </div>
   );
 }
