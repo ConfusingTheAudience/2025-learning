@@ -37,7 +37,7 @@ result5 = min(x, y, z) # returns -4
 
 
 
-# 8. Some useful values and fucntions from math class
+# 8. Some useful values and functions from math class
 
 # we need to import math module at the top
 
