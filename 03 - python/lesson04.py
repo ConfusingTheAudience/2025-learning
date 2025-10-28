@@ -14,11 +14,11 @@ is_sunny = True
 if temp > 35 or temp < 0 or is_raining:
     print('The outdoor event is cancelled')
 else:
-    print('The outdoor event is still sheduled')
+    print('The outdoor event is still sheduled') # returns this
     
 # and
 if temp >= 28 and is_sunny:
-    print('It is sunny')
+    print('It is sunny') # returns this
 else:
     print('It is not sunny')
     
@@ -26,4 +26,4 @@ else:
 if temp >= 28 and not is_sunny:
     print('It is sunny')
 else:
-    print('It is not sunny')
+    print('It is not sunny') # returns this
