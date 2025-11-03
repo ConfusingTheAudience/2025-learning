@@ -3,6 +3,8 @@
 #                        1. in
 #                        2. not in
 
+#29. Membership operators
+
 # example 1
 
 word = 'APPLE'
