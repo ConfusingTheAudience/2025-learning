@@ -1,6 +1,6 @@
 # PyQt5
 
-# 64. PyQt5 Buttons
+# 65. PyQt5 Buttons
 
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel
