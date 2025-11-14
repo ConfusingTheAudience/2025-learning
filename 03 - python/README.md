@@ -143,13 +143,13 @@ Lessons, Exercises & Projects
 
 <b>Lesson 40. PyQt5 Buttons</b>
 
-<b>Lesson 40. PyQt5 Checkboxes</b>
+<b>Lesson 41. PyQt5 Checkboxes</b>
 
-<b>Lesson 40. PyQt5 Radio buttons</b>
+<b>Lesson 42. PyQt5 Radio buttons</b>
 
-<b>Lesson 40. PyQt5 Line edits</b>
+<b>Lesson 43. PyQt5 Line edits</b>
 
-<b>Lesson 40. PyQt5 CSS styles</b>
+<b>Lesson 44. PyQt5 CSS styles</b>
 
 <br />
 <br />
