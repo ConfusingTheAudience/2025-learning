@@ -22,6 +22,9 @@ def add(number1, number2):
     return f'{number1} + {number2} = {number1 + number2}'
 ```
 **Handle params**
+```diff
++ from flask import request
+```
 ```python
 @app.route('/handle_url_params')
 def handle_params():
@@ -50,6 +53,9 @@ def get_and_post_method():
         return 'You will never see this message'
 ```
 **Specify status code**
+```diff
++ from flask import make_response
+```
 ```python
 @app.route('/simple')
 def simple():
