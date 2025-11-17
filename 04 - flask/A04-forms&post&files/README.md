@@ -19,6 +19,16 @@ def index():
         else:
             return 'Failure'
 ```
+```html
+    index.html
+
+    <h1>Hello World</h1>
+    <form method="POST" action="{{ url_for('index') }}">
+        <input type="text" name="username" placeholder="Username"><br>
+        <input type="password" name="password" placeholder="Password"><br>
+        <input type="submit" value="Login">
+    </form>
+```
 
 **File upload**
 ```python
@@ -31,6 +41,15 @@ def file_upload():
     elif file.content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' or 'application/vnd.ms-excel':
         df = pd.read_excel(file)
         return df.to_html()
+```
+```html
+    index.html
+
+    <h1>File Upload</h1>
+    <form method="POST" action="{{ url_for('file_upload') }}" enctype="multipart/form-data">
+        <input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, text/plain" required>
+        <input type="submit" value="Upload file">
+    </form>
 ```
 
 **Return a file from download**
@@ -53,6 +72,15 @@ def convert_csv():
         }
     )
     return response
+```
+```html
+    index.html
+
+    <h1>Convert CSV File</h1>
+    <form method="POST" action="{{ url_for('convert_csv') }}" enctype="multipart/form-data">
+        <input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+        <input type="submit" value="Upload file">
+    </form>
 ```
 
 **Return a file 2**
@@ -80,6 +108,26 @@ def convert_csv_two():
 def download(filename):
     return send_from_directory(directory='downloads', filename=filename, download_name='result.csv')
 ```
+```html
+    index.html
+
+    <h1>Convert CSV Two</h1>
+    <form method="POST" action="{{ url_for('convert_csv_two') }}" enctype="multipart/form-data">
+        <input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+        <input type="submit" value="Upload file">
+    </form>
+```
+```jinja
+    download.html
+
+    {% extends 'base.html' %}
+    {% block title %}Index Page{% endblock %}
+
+    {% block content %}
+        <h1>Download</h1>
+        <a href="{{ url_for('download', filename=filename) }}">Download File</a>
+    {% endblock %}
+```
 
 **Post JSON data with javascript**
 ```diff
@@ -95,4 +143,31 @@ def handle_post():
         f.write(f'{greeting}, {name}')
     
     return jsonify({'message': 'Successfully written!'})
+```
+```html
+    index.html
+ 
+    <h1>Javascript JSON Request</h1>
+    <button id="post_button">Send POST Request</button>
+
+    <script type="text/javascript">
+        const postButton = document.getElementById('post_button');
+
+        const jsonData = {name: 'Mike', greeting: 'Hello'}
+
+        postButton.addEventListener('click', () => {
+            fetch('{{ url_for("handle_post") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => response.json())
+            .then(data => console.log('Success', data))
+            .catch((error) => {
+                console.error('Error:', error)
+            });
+        });
+    </script>
 ```
