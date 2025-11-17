@@ -5,6 +5,9 @@ pass value, template inheritance, filters, dynamic url, redirect
 <br />
  
 **Basic template and definition**
+```diff
++ from flask import render_template
+```
 ```python
 app = Flask(__name__, template_folder='templates')
 
@@ -144,6 +147,9 @@ added this line:
 <a href="{{ url_for('filters') }}">Filters</a>
 ```
 **Redirect**
+```diff
++ from flask import redirect, url_for
+```
 ```python
 @app.route('/redirect_endpoint')
 def redirect_endpoint():
