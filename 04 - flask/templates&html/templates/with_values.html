@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}With values{% endblock %}
+
+{% block content %}
+    <h1>Hi</h1>
+    <ul>
+        {% for item in mylist %}
+            {% if item == 30 %}
+                <li style='color: red'>{{ item }}</li>
+            {% else %}
+                <li>{{ item }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <p>{{ myvalue }}</p>
+    <p>{{ myresult }}</p>
+{% endblock %}
