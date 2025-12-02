@@ -128,7 +128,8 @@ login_manager.login_view = "login" - this line is responsible for the redirect <
 logout_user()
 ```
 removes the user’s ID from the session <br />
-**current_user**
+<br />
+**Current_user**
 ```python
 current_user from import
 ```
